@@ -1,0 +1,14 @@
+name = "cf-pages-portfolio-router"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+routes = [
+  { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
+]
+
+[vars]
+# Subdomain suffix for service projects.
+# {slug}.{TARGET_DOMAIN} — change to "netlify.app", "vercel.app", or your own domain.
+TARGET_DOMAIN = "pages.dev"
+# Slug to redirect to when hitting the root URL.
+DEFAULT_SERVICE = "your-first-service"
