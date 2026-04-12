@@ -3,7 +3,7 @@ main = "worker.js"
 compatibility_date = "2025-01-01"
 
 routes = [
-  { pattern = "redundant.services/*", zone_name = "redundant.services" }
+  { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
 ]
 
 [vars]
@@ -11,5 +11,4 @@ routes = [
 # {slug}.{TARGET_DOMAIN} — change to "netlify.app", "vercel.app", or your own domain.
 TARGET_DOMAIN = "pages.dev"
 # Slug to redirect to when hitting the root URL.
-# Update this (or override in the CF dashboard) when your default service changes.
-DEFAULT_SERVICE = "standup-as-a-service"
+DEFAULT_SERVICE = "your-first-service"

@@ -1,7 +1,5 @@
 # cf-pages-portfolio-router
 
-[![Deploy](https://github.com/marvinrichter/redundant-services-router/actions/workflows/deploy.yml/badge.svg)](https://github.com/marvinrichter/redundant-services-router/actions/workflows/deploy.yml)
-
 Cloudflare Worker that routes `your-domain.com/{service}/*` to the corresponding project at `{service}.{TARGET_DOMAIN}/*`.
 
 Zero per-service config. Deploy a new project with the matching slug — it routes automatically.
@@ -45,7 +43,7 @@ npx wrangler dev
 npx wrangler deploy
 ```
 
-Deploys automatically on push to `main` via GitHub Actions. Requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets.
+A `deploy.yml` workflow is included. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets to enable automatic deploys on push to `main`.
 
 ---
 
