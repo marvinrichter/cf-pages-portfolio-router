@@ -1,7 +1,12 @@
 name = "redundant-services-router"
 main = "worker.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-01-01"
 
 routes = [
   { pattern = "redundant.services/*", zone_name = "redundant.services" }
 ]
+
+[vars]
+# Slug of the service to redirect to when hitting the root.
+# Update this (or override in the CF dashboard) when adding new services.
+DEFAULT_SERVICE = "standup-as-a-service"
