@@ -72,4 +72,4 @@ Not in scope:
 
 ## Deploy workflow
 
-`.github/workflows/deploy.example.yml` is intentionally not active in this repo — it would always fail without CF credentials. In your fork: rename it to `deploy.yml` and add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repository secrets.
+`.github/deploy.yml.example` is a deploy workflow template — it lives outside `workflows/` intentionally so it does not run in this repo (no CF credentials here). In your fork: copy it to `.github/workflows/deploy.yml` and add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repository secrets.

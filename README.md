@@ -47,7 +47,7 @@ npm run coverage   # tests + coverage report
 npx wrangler deploy
 ```
 
-A `test.yml` workflow runs on every push and PR. A `deploy.example.yml` workflow is included as a ready-to-use template — rename it to `deploy.yml` in your fork and add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets to activate auto-deploy on push to `main`.
+A `test.yml` workflow runs on every push and PR. A deploy workflow template is included at `.github/deploy.yml.example` — copy it to `.github/workflows/deploy.yml` in your fork and add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets to activate auto-deploy on push to `main`.
 
 ---
 
@@ -63,8 +63,9 @@ A `test.yml` workflow runs on every push and PR. A `deploy.example.yml` workflow
    TARGET_DOMAIN = "pages.dev"   # or netlify.app, vercel.app, …
    DEFAULT_SERVICE = "your-first-service"
    ```
-4. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub secrets
-5. Push — the worker deploys automatically
+4. Copy `.github/deploy.yml.example` → `.github/workflows/deploy.yml`
+5. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub secrets
+6. Push — the worker deploys automatically
 
 From there: each new service is just a new project named after its slug. No router changes needed.
 
