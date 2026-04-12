@@ -7,6 +7,9 @@ routes = [
 ]
 
 [vars]
-# Slug of the service to redirect to when hitting the root.
-# Update this (or override in the CF dashboard) when adding new services.
+# Subdomain suffix for service projects.
+# {slug}.{TARGET_DOMAIN} — change to "netlify.app", "vercel.app", or your own domain.
+TARGET_DOMAIN = "pages.dev"
+# Slug to redirect to when hitting the root URL.
+# Update this (or override in the CF dashboard) when your default service changes.
 DEFAULT_SERVICE = "standup-as-a-service"

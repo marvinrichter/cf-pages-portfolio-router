@@ -1,29 +1,34 @@
 /**
- * redundant.services — Path Router
+ * CF Pages Portfolio Router
  *
- * Routes redundant.services/{service}/* to the corresponding
- * CF Pages project at {service}.pages.dev/*
+ * Routes {your-domain}/{service}/* to the corresponding
+ * project at {service}.{TARGET_DOMAIN}/*
  *
  * Adding a new service: zero config needed here.
- * Deploy the CF Pages project with the same name as the slug.
+ * Deploy the project with the same name as the slug.
  *
- * Examples:
- *   redundant.services/standup-as-a-service        → standup-as-a-service.pages.dev/
- *   redundant.services/standup-as-a-service/og.png → standup-as-a-service.pages.dev/og.png
- *   redundant.services/                            → 302 to DEFAULT_SERVICE (meta-page in Phase 2)
+ * Examples (default config, TARGET_DOMAIN=pages.dev):
+ *   your-domain.com/standup-as-a-service        → standup-as-a-service.pages.dev/
+ *   your-domain.com/standup-as-a-service/og.png → standup-as-a-service.pages.dev/og.png
+ *   your-domain.com/                            → 302 to DEFAULT_SERVICE
  *
- * Config:
- *   DEFAULT_SERVICE — set in wrangler.toml [vars] or override in CF dashboard
+ * Config (wrangler.toml [vars] or CF dashboard):
+ *   TARGET_DOMAIN    — subdomain suffix for service projects (default: pages.dev)
+ *   DEFAULT_SERVICE  — slug to redirect to from root (default: first service slug)
  */
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const segments = url.pathname.split('/').filter(Boolean);
+    const targetDomain = env.TARGET_DOMAIN ?? 'pages.dev';
 
-    // Root — redirect to default service until meta-page launches in Phase 2
+    // Root — redirect to default service
     if (segments.length === 0) {
-      const defaultService = env.DEFAULT_SERVICE ?? 'standup-as-a-service';
+      const defaultService = env.DEFAULT_SERVICE ?? '';
+      if (!defaultService) {
+        return new Response('DEFAULT_SERVICE is not configured.', { status: 500 });
+      }
       return Response.redirect(`${url.origin}/${defaultService}/`, 302);
     }
 
@@ -39,7 +44,7 @@ export default {
       ? '/' + segments.slice(1).join('/')
       : '/';
 
-    const targetUrl = `https://${service}.pages.dev${subPath}${url.search}`;
+    const targetUrl = `https://${service}.${targetDomain}${subPath}${url.search}`;
     return fetch(targetUrl);
   },
 };

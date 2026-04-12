@@ -1,26 +1,36 @@
-# redundant-services-router
+# cf-pages-portfolio-router
 
 [![Deploy](https://github.com/marvinrichter/redundant-services-router/actions/workflows/deploy.yml/badge.svg)](https://github.com/marvinrichter/redundant-services-router/actions/workflows/deploy.yml)
 
-Cloudflare Worker that routes `redundant.services/{service}/*` to the corresponding CF Pages project at `{service}.pages.dev/*`.
+Cloudflare Worker that routes `your-domain.com/{service}/*` to the corresponding project at `{service}.{TARGET_DOMAIN}/*`.
 
-Part of the [redundant.services](https://redundant.services) portfolio — a growing collection of satirical "X-as-a-Service" landing pages for senior developers.
+Zero per-service config. Deploy a new project with the matching slug — it routes automatically.
+
+> **Reference implementation:** [redundant.services](https://redundant.services) — a collection of satirical "X-as-a-Service" landing pages for senior developers.
 
 ## How it works
 
 ```
-redundant.services/standup-as-a-service        → standup-as-a-service.pages.dev/
-redundant.services/standup-as-a-service/og.png → standup-as-a-service.pages.dev/og.png
-redundant.services/                            → 302 to DEFAULT_SERVICE
+your-domain.com/standup-as-a-service        → standup-as-a-service.pages.dev/
+your-domain.com/standup-as-a-service/og.png → standup-as-a-service.pages.dev/og.png
+your-domain.com/                            → 302 to DEFAULT_SERVICE
 ```
 
-Each service lives in its own CF Pages project. The router derives the target from the URL path — no config changes needed when adding a new service. Just deploy a new CF Pages project with the matching slug.
+Convention: `{slug}` in the path maps to `{slug}.{TARGET_DOMAIN}`. Works with CF Pages, Netlify, Vercel, or any subdomain-based host.
+
+## Configuration
+
+Set in `wrangler.toml [vars]` or override per-environment in the CF dashboard:
+
+| Var | Default | Description |
+|---|---|---|
+| `TARGET_DOMAIN` | `pages.dev` | Subdomain suffix — e.g. `netlify.app`, `vercel.app` |
+| `DEFAULT_SERVICE` | _(required)_ | Slug to redirect to from root |
 
 ## Adding a new service
 
-1. Create a CF Pages project named `{your-service-slug}`
-2. Deploy your static site there
-3. Done — `redundant.services/{your-service-slug}` routes automatically
+1. Deploy your project to `{slug}.{TARGET_DOMAIN}`
+2. Done — `your-domain.com/{slug}` routes automatically
 
 ## Local development
 
@@ -35,33 +45,34 @@ npx wrangler dev
 npx wrangler deploy
 ```
 
-Deploys automatically on push to `main` via GitHub Actions (requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets).
-
-## Services
-
-| Service | Live |
-|---|---|
-| [standup-as-a-service](https://github.com/marvinrichter/standup-as-a-service) | [redundant.services/standup-as-a-service](https://redundant.services/standup-as-a-service) |
+Deploys automatically on push to `main` via GitHub Actions. Requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets.
 
 ---
 
-## Use this for your own portfolio
-
-Running multiple static sites under one domain with zero per-service routing config? Fork this.
-
-**Setup:**
+## Fork this for your own portfolio
 
 1. Buy a domain, delegate NS to Cloudflare
 2. Fork this repo
 3. Update `wrangler.toml`:
    ```toml
    routes = [{ pattern = "yourdomain.com/*", zone_name = "yourdomain.com" }]
-   ```
-4. Set `DEFAULT_SERVICE` to your first service slug
-5. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub secrets
-6. Push — the worker deploys automatically
 
-From there: each new service is just a new CF Pages project named after its slug. No router changes needed.
+   [vars]
+   TARGET_DOMAIN = "pages.dev"   # or netlify.app, vercel.app, …
+   DEFAULT_SERVICE = "your-first-service"
+   ```
+4. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub secrets
+5. Push — the worker deploys automatically
+
+From there: each new service is just a new project named after its slug. No router changes needed.
+
+---
+
+## Services (redundant.services)
+
+| Service | Live |
+|---|---|
+| [standup-as-a-service](https://github.com/marvinrichter/standup-as-a-service) | [redundant.services/standup-as-a-service](https://redundant.services/standup-as-a-service) |
 
 ## License
 
