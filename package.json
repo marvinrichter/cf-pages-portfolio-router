@@ -1,11 +1,12 @@
 {
-  "name": "redundant-services-router",
-  "private": true,
+  "name": "cf-pages-portfolio-router",
   "scripts": {
+    "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev"
+    "test": "vitest run"
   },
   "devDependencies": {
+    "vitest": "^2.0.0",
     "wrangler": "^4.81.1"
   }
 }

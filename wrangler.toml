@@ -1,4 +1,4 @@
-name = "redundant-services-router"
+name = "cf-pages-portfolio-router"
 main = "worker.js"
 compatibility_date = "2025-01-01"
 
