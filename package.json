@@ -1,11 +1,17 @@
 {
   "name": "cf-pages-portfolio-router",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run"
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.0.0",
     "vitest": "^2.0.0",
     "wrangler": "^4.81.1"
   }

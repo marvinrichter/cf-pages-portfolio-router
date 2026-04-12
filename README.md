@@ -1,5 +1,7 @@
 # cf-pages-portfolio-router
 
+[![Test](https://github.com/marvinrichter/cf-pages-portfolio-router/actions/workflows/test.yml/badge.svg)](https://github.com/marvinrichter/cf-pages-portfolio-router/actions/workflows/test.yml)
+
 Cloudflare Worker that routes `your-domain.com/{service}/*` to the corresponding project at `{service}.{TARGET_DOMAIN}/*`.
 
 Zero per-service config. Deploy a new project with the matching slug — it routes automatically.
@@ -35,6 +37,8 @@ Set in `wrangler.toml [vars]` or override per-environment in the CF dashboard:
 ```bash
 npm install
 npx wrangler dev
+npm test           # run tests
+npm run coverage   # tests + coverage report
 ```
 
 ## Deploy
@@ -43,7 +47,7 @@ npx wrangler dev
 npx wrangler deploy
 ```
 
-A `deploy.yml` workflow is included. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets to enable automatic deploys on push to `main`.
+Two workflows are included: `test.yml` runs on every push and PR. `deploy.yml` deploys on push to `main` — add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as repo secrets to activate it.
 
 ---
 

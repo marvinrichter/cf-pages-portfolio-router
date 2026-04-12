@@ -21,6 +21,13 @@ describe('root redirect', () => {
     });
     expect(res.status).toBe(500);
   });
+
+  it('returns 500 when DEFAULT_SERVICE is undefined', async () => {
+    const res = await worker.fetch(new Request('https://example.com/'), {
+      TARGET_DOMAIN: 'pages.dev',
+    });
+    expect(res.status).toBe(500);
+  });
 });
 
 describe('trailing slash redirect', () => {
@@ -58,5 +65,12 @@ describe('path routing', () => {
       DEFAULT_SERVICE: 'my-service',
     });
     expect(fetch).toHaveBeenCalledWith('https://my-service.netlify.app/');
+  });
+
+  it('defaults TARGET_DOMAIN to pages.dev when not set', async () => {
+    await worker.fetch(new Request('https://example.com/my-service/'), {
+      DEFAULT_SERVICE: 'my-service',
+    });
+    expect(fetch).toHaveBeenCalledWith('https://my-service.pages.dev/');
   });
 });
