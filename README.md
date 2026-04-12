@@ -66,14 +66,6 @@ Deploys automatically on push to `main` via GitHub Actions. Requires `CLOUDFLARE
 
 From there: each new service is just a new project named after its slug. No router changes needed.
 
----
-
-## Services (redundant.services)
-
-| Service | Live |
-|---|---|
-| [standup-as-a-service](https://github.com/marvinrichter/standup-as-a-service) | [redundant.services/standup-as-a-service](https://redundant.services/standup-as-a-service) |
-
 ## License
 
 MIT
