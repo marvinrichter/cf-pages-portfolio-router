@@ -10,22 +10,21 @@
  * Examples:
  *   redundant.services/standup-as-a-service        → standup-as-a-service.pages.dev/
  *   redundant.services/standup-as-a-service/og.png → standup-as-a-service.pages.dev/og.png
- *   redundant.services/                            → meta-page (placeholder until Phase 2)
+ *   redundant.services/                            → 302 to DEFAULT_SERVICE (meta-page in Phase 2)
+ *
+ * Config:
+ *   DEFAULT_SERVICE — set in wrangler.toml [vars] or override in CF dashboard
  */
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     const segments = url.pathname.split('/').filter(Boolean);
 
-    // Root — meta-page placeholder until Phase 2
+    // Root — redirect to default service until meta-page launches in Phase 2
     if (segments.length === 0) {
-      return new Response(
-        `<!DOCTYPE html><html><head><title>redundant.services</title>
-        <meta http-equiv="refresh" content="0;url=/standup-as-a-service/"></head>
-        <body>Redirecting...</body></html>`,
-        { headers: { 'Content-Type': 'text/html' } }
-      );
+      const defaultService = env.DEFAULT_SERVICE ?? 'standup-as-a-service';
+      return Response.redirect(`${url.origin}/${defaultService}/`, 302);
     }
 
     // Redirect service root without trailing slash
